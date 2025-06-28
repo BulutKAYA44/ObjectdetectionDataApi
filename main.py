@@ -99,7 +99,7 @@ async def upload_image(
 
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
-        
+
 @app.get("/dataset")
 async def get_coco_dataset(
     category: Optional[str] = Query(None, description="Kategori (örnek: limon)")
