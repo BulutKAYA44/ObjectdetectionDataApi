@@ -131,3 +131,26 @@ async def get_coco_dataset(
 
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
+
+
+@app.get("/categories")
+async def list_categories():
+    try:
+        key_data = json.loads(os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
+        credentials = service_account.Credentials.from_service_account_info(key_data)
+        client = storage.Client(credentials=credentials)
+        bucket = client.bucket(BUCKET_NAME)zs<
+
+        # GCS üzerinde klasör isimlerini bul (yani "prefix" olarak bakıyoruz)
+        blobs = bucket.list_blobs()
+        categories = set()
+
+        for blob in blobs:
+            parts = blob.name.split("/")
+            if len(parts) >= 2:
+                categories.add(parts[0])  # ilk parça kategori adı oluyor
+
+        return {"categories": sorted(list(categories))}
+
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
