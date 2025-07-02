@@ -139,7 +139,7 @@ async def list_categories():
         key_data = json.loads(os.environ["GOOGLE_APPLICATION_CREDENTIALS_JSON"])
         credentials = service_account.Credentials.from_service_account_info(key_data)
         client = storage.Client(credentials=credentials)
-        bucket = client.bucket(BUCKET_NAME)zs<
+        bucket = client.bucket(BUCKET_NAME)
 
         # GCS üzerinde klasör isimlerini bul (yani "prefix" olarak bakıyoruz)
         blobs = bucket.list_blobs()
